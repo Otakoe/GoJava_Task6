@@ -92,6 +92,10 @@ public class MainFX extends Application {
         allRad=new int[count];
         allY = new int[count];
         int tries=0;
+        /*генерим радиусы пока сумма радиусов не будет меньше чем пол высоты окна - отступ, но не долго.
+         * если сгенерить не получится то ориентируемся на МАКС размеры окна
+         * следующие два ифа не относятся как к таковому заданию, просто для избегания косяков
+         */
         do {
             for (int i = 0; i < count; i++) {
                 rad = Math.abs(rand.nextInt() % (maxRad - minRad)) + minRad;
@@ -104,11 +108,7 @@ public class MainFX extends Application {
             }
             tries++;
         }while(allRadiusSum>=(HEIGHT/2-40)&&tries<20);
-
-        /*генерим радиусы пока сумма радиусов не будет меньше чем пол высоты окна - отступ, но не долго.
-        * если сгенерить не получится то ориентируемся на МАКС размеры окна
-        * следующие два ифа не относятся как к таковому заданию, просто для избегания косяков
-         */
+        // следующий иф генерит радиусы и координаты ориентируясь на макс размеры окна если по базовому размеру окна не удалось вместить
         if(tries==20){
             y = MAX_HEIGHT - 40;
             for (int i = 0; i < count; i++) {
@@ -121,19 +121,21 @@ public class MainFX extends Application {
                 System.out.println(rad);
             }
         }
+        // Для красоты и удобства сдвигаем ввверх снеговика по окну под верх окна  с небольшим отступом
         if(y>rad+20){
             for (int i = 0; i < count; i++) {
                 allY[i]-=(y-rad-20);
             }
             y=allY[count-1];
         }
-
+        // рисуем все телесные круги снеговика
         for (int i=0;i<count;i++){
             root.getChildren().addAll(generateCircle( x, allY[i], allRad[i], 3));
         }
-        System.out.println(x+" "+y+" "+rad);
+        //System.out.println(x+" "+y+" "+rad);       // для дебага. раскоментить если что-то сломалось
         prevY=y;
-        face=rad/3;                     //просто число для удобства рисования елементов лица
+        face=rad/3;                     //просто число для удобства рисования елементов лица в пределах круга лица
+
         //рот
         y=prevY+face;
         rad=rand.nextInt((int)(prevRad/3.5))+2;
