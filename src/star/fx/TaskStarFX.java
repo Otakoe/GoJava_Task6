@@ -8,6 +8,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.stage.Stage;
 
+import java.util.Locale;
 import java.util.Scanner;
 
 import static java.lang.Math.*;
@@ -90,8 +91,23 @@ public class TaskStarFX extends Application {
                 }
             }
         }
-        centerX=WIDTH/2;
-        centerY=HEIGHT/2;
+        while (true){
+            try{
+                System.out.println("Ещё введите пожалуйста Х и У координаты центра звезды");
+                centerX=scan.nextInt();
+                centerY=scan.nextInt();
+                if(centerX<=maxRad||centerY<=maxRad||centerX>WIDTH-maxRad||centerY>HEIGHT-maxRad)
+                {
+                    System.out.println("Плохо указаны координаты, звезда не будет видна вся");
+                    continue;
+                }
+                else{
+                    break;
+                }
+            }catch (Exception e){
+                System.out.println("Неверный ввод");
+            }
+        }
         angle = 360 / (cornersStar * 2);
         /*
         Циркуль для проверки что звезда вписана
